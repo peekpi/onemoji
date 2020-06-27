@@ -11,11 +11,13 @@
                         --
                         <a href="https://github.com/peekpi/onemoji/blob/master/sol/onemoji.sol" target="_blank">code</a>
                     </p>
+                    <p>totalSupply: {{ totalSupply }}/3470</p>
                     <p>your address: <a :href="`https://explorer.harmony.one/#/address/${address}`">{{ address }} </a></p>
+                    <p>your ONE: {{ balanceOne?Number(balanceOne.toOne()).toFixed(2):'-' }}</p>
                     <p>your ONEMOJI: {{ tokenIDs.length }}</p>
                 </div>
                 <Input v-model="userseed" placeholder="your lucky number" :disabled="loading" />
-                <Button type="primary" long @click="mint" :loading="loading">mint</Button>
+                <Button type="primary" long @click="mint" :loading="loading">mint rate {{ mintPercent }}%</Button>
                 <RemoteSVG
                     v-for="tokenID in tokenIDs"
                     :tokenID="tokenID"
@@ -36,6 +38,8 @@ export default {
             userseed: null,
             loading: false,
             address: null,
+            balanceOne: null,
+            totalSupply: 0,
         };
     },
     props: {
@@ -46,6 +50,11 @@ export default {
     },
     mounted() {
         setTimeout(this.myTokenAmount, 2000);
+    },
+    computed:{
+        mintPercent(){
+            return ((1-this.totalSupply/3470)*100).toFixed(2);
+        }
     },
     methods: {
         async mint() {
@@ -99,6 +108,10 @@ export default {
                     attribute
                 });
             }
+            let balanceOne = await hmy.hmySDK.blockchain.getBalance(account);
+            this.balanceOne = new hmy.hmySDK.utils.Unit(balanceOne.result).asWei();
+            window.x = this.balanceOne;
+            this.totalSupply = (await contract.methods.totalSupply().call()).toString();
             //if (!this.loading) setTimeout(this.myTokenAmount, 3000);
         }
     }
