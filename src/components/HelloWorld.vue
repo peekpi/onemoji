@@ -17,7 +17,7 @@
                     <p>your ONEMOJI: {{ tokenIDs.length }}</p>
                 </div>
                 <Input v-model="userseed" placeholder="your lucky number" :disabled="loading" />
-                <Button type="primary" long @click="mint" :loading="loading">mint rate {{ mintPercent }}%</Button>
+                <Button type="primary" long @click="mint" :loading="loading" :disabled="disabled">mint rate {{ mintPercent }}%</Button>
                 <RemoteSVG
                     v-for="tokenID in tokenIDs"
                     :tokenID="tokenID"
@@ -37,6 +37,7 @@ export default {
             tokenIDs: [],
             userseed: null,
             loading: false,
+            disabled: false,
             address: null,
             balanceOne: null,
             totalSupply: 0,
@@ -88,6 +89,8 @@ export default {
         async myTokenAmount() {
             console.log("myTokenAmount:", window.harmony);
             if (!window.harmony) return;
+            if (this.loading) return;
+            this.disabled = true;
             const hmy = this.$store.data.hmy;
             const account = await hmy.login();
             this.address = account.address;
@@ -112,7 +115,8 @@ export default {
             this.balanceOne = new hmy.hmySDK.utils.Unit(balanceOne.result).asWei();
             window.x = this.balanceOne;
             this.totalSupply = (await contract.methods.totalSupply().call()).toString();
-            //if (!this.loading) setTimeout(this.myTokenAmount, 3000);
+            setTimeout(this.myTokenAmount, 3000);
+            this.disabled = false;
         }
     }
 };
