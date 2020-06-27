@@ -99,7 +99,7 @@ export default {
                     attribute
                 });
             }
-            if (!this.loading) setTimeout(this.myTokenAmount, 3000);
+            //if (!this.loading) setTimeout(this.myTokenAmount, 3000);
         }
     }
 };
