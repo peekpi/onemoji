@@ -4,7 +4,8 @@ import hmy from './hmy.js';
 
 window.hmy = hmy;
 const EMOJI_ABI = require('./emoji.sol.json');
-const EMOJI_ADDRESS = 'one1kml3y2emq6fmh6ea7vta5r33rwd09rku2z5mpl';
+const EMOJI_ADDRESS = 'one1w9fefdt20uzjtjkly88t57fr9pvpn04qufchep';
+//'one1kml3y2emq6fmh6ea7vta5r33rwd09rku2z5mpl';
 
 const EMOJI_URL = 'https://raw.githubusercontent.com/peekpi/nftymoji/master/emoji'
 //const EMOJI_URL = '../emoji';
