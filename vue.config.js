@@ -1,6 +1,8 @@
 const isProduction = process.env.NODE_ENV === 'production';
 module.exports = {
   publicPath: isProduction
-    ? '/nftymoji/dist/'
+    ? '/onemoji/dist/'
     : '/',
+    productionSourceMap: isProduction
+      ? false : true,
 }
