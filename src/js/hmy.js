@@ -4,7 +4,7 @@ const stakingAPIs = require('./stakingAPIs.json');
 
 const shardID = 0;
 //const main = 'https://api.s0.dry.hmny.io' // ostn
-const main = 'https://api.s0.t.hmny.io'; // main
+const main = 'https://api0.s0.t.hmny.io'; // main
 const hmySDK = new Harmony(
   // rpc url
   main,

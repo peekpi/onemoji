@@ -96,16 +96,24 @@ export default {
             this.address = account.address;
             const contract = await this.$store.updateContact();
             const hexAddress = hmy.hmySDK.crypto.fromBech32(account.address);
+            console.log("balanceOf:");
             let balance = await contract.methods.balanceOf(hexAddress).call();
             console.log("myTokenAmount balance:", balance.toString());
             for (let i = this.tokenIDs.length; i < balance; i++) {
-                let tokenID = await contract.methods
+                let tokenID;
+                let attribute;
+                try{
+                    tokenID = await contract.methods
                     .tokenOfOwnerByIndex(hexAddress, i)
                     .call();
                 console.log(tokenID.toNumber());
-                let attribute = await contract.methods
+                    attribute = await contract.methods
                     .powerNLucks(tokenID)
                     .call();
+                }catch(e){
+                    console.log("error:", e);
+                    continue;
+                }
                 this.tokenIDs.unshift({
                     tokenID,
                     attribute
